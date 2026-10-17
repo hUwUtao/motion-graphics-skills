@@ -38,3 +38,9 @@ Too much words for a thing. This guide will joint with a tool that capable, in o
 ## Confirmation?
 
 Well, not as throughroughly tested, but I hope its an information bank that can be made into actual value.
+
+## Disclosure
+
+The preresearch instruction is refined with `claude-opus-5.5` and researched by `gemini-argon-4`
+
+> Opinion: I think Gemini has a really good writing structure.
