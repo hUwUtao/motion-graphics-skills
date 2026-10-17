@@ -1,0 +1,87 @@
+<!-- Book page 24 | Master Production Checklist | Source: motion_and_video_production_manual.md -->
+
+## 24. Master Production Checklist
+
+Verify every item across all 22 sections before signing off on a final deliverable (`Gate 4 Definition of Done`):
+
+- **1. Pre-Production**
+  - [ ] Single `≤ 15-word` communication objective, target audience, viewing distance, and valence/arousal arc defined.
+  - [ ] Master aspect ratio, resolution, and frame rate locked before layout.
+  - [ ] Voiceover scripted at `110–150 WPM` (`≤ 170 WPM` max) and display copy at `≤ 15 CPS` with `≥ 0.5 s` clause pauses.
+  - [ ] Hero Style Frames rendered at `100%` resolution through target raster pipeline and verified in `BT.709` grayscale ($\Delta L \ge 0.35$) and `10%` thumbnail view.
+  - [ ] Frame-accurate Animatic locked to audio track; assets tiered (`Hero / Secondary / BG`) with `12–24f` cache handles.
+- **2. 2D Composition**
+  - [ ] Modular grid (`12×8` for `16:9`, `6×12` for `9:16`) with `5%–8%` margins, `≤ 3` hierarchy levels ($\ge 1.414:1$ scale step), and macro:micro whitespace `≥ 2.5:1`.
+  - [ ] Focal anchors placed at `1/3` or `1/φ` intersections (or intentional `0.5` symmetry) with `≥ 35%` negative space and `60%–65%` lead room.
+  - [ ] Zero near-miss (`2–8 px`) alignments or accidental frame/object edge tangents.
+- **3. Typography**
+  - [ ] Maximum `2` typeface families (`+ optional Monospace`); `tabular-nums` (`tnum`) active on all animated numbers.
+  - [ ] Cap heights `≥ 2.2% H` (floor), `3.5%–5.0% H` (body/captions), `10%–25% H` (hero display); minimum stroke width `≥ 1.5 px`.
+  - [ ] Inverse tracking applied (`-0.03 to -0.01 em` display; `+0.06 to +0.15 em` small all-caps); line length `≤ 45 chars` (`≤ 42` for captions).
+  - [ ] Kinetic type obeys Stationary Reading Hold Formula $T_{\text{hold}} \ge \max(1.5\text{s}, 0.3\text{s} + N_w / 3.0) + 0.4\text{s} \cdot N_{\text{distractors}}$ with sub-pixel MSDF rendering.
+- **4. Color**
+  - [ ] Palettes authored in **OKLCH** (`60:30:10` or `85:15` area ratio); out-of-gamut swatches mapped by reducing $C$ at constant $L$ and $h$.
+  - [ ] Hero subject separated from background by $\Delta L \ge 0.35$ (and warm/cool depth opposition); simultaneous contrast compensated.
+  - [ ] Global Master Palette (`5–7` swatches) and timeline Color Script locked, holding back the Climax/CTA accent (`< 2%` area) until climax.
+  - [ ] Gradients interpolated in `OKLab`/`OKLCH`/`Linear RGB` in `16-bit float` buffers with eased stops and `±1.0 LSB` TPDF blue-noise dithering.
+- **5. Color Pipeline**
+  - [ ] Working space is Scene-Linear (`ACEScg` or `Linear Rec.709`); albedo textures linearized via IDT; Normal/Roughness/Metallic/AO marked `Raw`.
+  - [ ] Exposure/WB adjusted in linear; CDL/contrast adjusted in log around `0.18` middle gray; 3D LUTs are `≥ 33³` tetrahedral with log shaper.
+  - [ ] Output Transform (`BT.709 2.4`, `sRGB`, `Display P3`, or `BT.2100 PQ` with `203-nit` graphics diffuse white) applied once at end of pipeline.
+- **6. 2D Motion Graphics**
+  - [ ] `non_scaling_stroke` enabled on non-uniformly scaled shapes; nested corner radii follow $R_{\text{inner}} = \max(0, R_{\text{outer}} - P)$.
+  - [ ] Motion/trim paths parameterized by normalized arc length $s$; morphing splines share equal vertex count, aligned `v₀`, and identical winding.
+  - [ ] Hard cuts (`≥ 85%`), linear-light dissolves (`≥ 24f`), exponential zooms ($S_0 e^{kt}$), and $C^1$-velocity-matched whip/push transitions verified.
+- **7. Animation Fundamentals**
+  - [ ] Squash-and-stretch conserves volume ($S_x S_y S_z = 1.0$); major launches preceded by `4–10f` (`8%–18%`) anticipation; diagonal moves follow curved arcs.
+  - [ ] Entrances use `Ease-Out`; exits use `Ease-In`; in-frame moves use asymmetric `In-Out` or analytical Damped Springs ($\zeta \in [0.68, 1.0]$).
+  - [ ] Rotation/scale channels offset `1–3f` from translation; child hierarchy links lag `2–4f`; ensemble stagger spread capped at `≤ 15 frames` (`≤ 600 ms`).
+- **8. 3D Composition**
+  - [ ] Scene staged across explicit FG (`0.25–0.6× Z`), MG (`1.0× Z`), and BG (`≥ 2.5× Z`) planes with `≥ 3` monocular depth cues active.
+  - [ ] Motivated Key (`30°–75°` az, `+25°–45°` el), shadowless opposite-temperature Fill (`2:1` high-key, `4:1` natural, `8:1+` low-key), and grazing Rim light configured.
+  - [ ] Non-overlapping `UV1` directional lightmaps (`≥ 4 texel` padding, `16–32 texels/m`), L2 SH probes, and indirect-only AO (`GTAO` + baked) verified.
+- **9. Camera & Cinematography**
+  - [ ] Virtual camera uses `36 mm` full-frame sensor gate with standard primes (`24`, `35`, `50`, `85`, `135 mm`; `≥ 85 mm` mandatory for close-up product/portrait beauty).
+  - [ ] Two-Node Camera Rig (`Dolly_Base` + damped `Look_At` head) avoids `10°–35°/s` (`7–15 px/f`) 24p pan judder zone and uses dual-band noise for handheld.
+  - [ ] `180°` Line of Action, `≥ 30°` cut angle delta, centered `180°` shutter motion blur (`90°–120°` for crisp 2D type), and linear-space DoF CoC verified.
+- **10. Materials & Shading**
+  - [ ] Dielectric albedo clamped to `[0.03, 0.85]` linear; metallic strictly `0.0` or `1.0`; roughness in `[0.04, 0.92]` with `±0.05–0.18` break-up variation.
+  - [ ] All hard edges beveled (`1–3 segments`) or normal-baked; Specular Anti-Aliasing active in fragment shader.
+  - [ ] Stylized NPR/Cel shaders use chromatic OKLCH shadow swatches, `1.5*fwidth` AA steps, light-modulated outlines (`1.5–4 px`), and `≥ 2.5 px` Nyquist clamping.
+- **11. 3D Motion Design**
+  - [ ] Rolling rigid bodies pivot on true contact edges; curve deformations use Parallel Transport / Rail frames ($\rho \ge 1.5 \times \text{thickness}$) on quad-remeshed caps.
+  - [ ] Character poses use C/S Lines of Action and Contrapposto; eye saccades lead head turns by `2–4f`; viseme peaks lead audio by `1–2f` (`M/B/P` held `≥ 2f`).
+  - [ ] Procedural `fBm`/Curl noise (`2–3 octaves`) uses de-correlated axis seeds ($\Delta \phi > 30$) and ramps to `0.0` at structural anchors and reading holds.
+- **12. Simulation & Procedural**
+  - [ ] Particles use skewed power-law radii ($u^3$, `max:min ≥ 6:1`), air drag, Curl turbulence, birth/death envelopes, and Soft Particle depth fade.
+  - [ ] Simulations run at metric scale (`1 unit = 1 m`, `8–16 substeps`); RBD uses 3-tier fracture swapped at `t_impact` and baked as per-piece transforms; Cloth baked as `fp16` VAT.
+  - [ ] Remeshed liquids carry vertex velocity `v`; volumes use `32–64 step` 3D raymarching (3-octave multi-scatter) or 6-light optical-flow flipbooks; scatter uses Poisson-disk/Phyllotaxis.
+- **13. Compositing**
+  - [ ] All compositing uses Scene-Linear Associated (Premultiplied) Alpha; grades wrapped in `Unpremultiply → Grade → Premultiply`; `Z-Depth` un-filtered.
+  - [ ] Optical post-effects obey physical order and kitsch ceilings: Karis linear mip-bloom (`3%–8%`), red-orange halation (`4%–10%`), radial-only CA (`≤ 1.5 px` corners), linear $\cos^4\theta$ vignette (`-0.25 to -0.65 EV`), and $4Y(1-Y)$ grain (`1.0%–2.5%` RMS).
+- **14. Editing**
+  - [ ] Cuts audited against Murch's Rule of Six (`Emotion 51% > Story 23% > Rhythm 10% > Eye-Trace 7%`); `60%+` VO/dialogue cuts use `J-Cuts` (`6–18f`) or `L-Cuts` (`12–36f`).
+  - [ ] Action cuts placed `2–3f` before impact apex; shot durations match complexity (`CU`: `0.5–2s`, `EWS`: `3–6s`) with ASL variation $\sigma / \mu \in [0.25, 0.60]$.
+- **15. Attention & Short-Form**
+  - [ ] `Frame 0` launches with active motion and audio (`≤ 4f`, zero black fade-in); Hook completes within `≤ 3.0 s`; micro interrupts every `3–5 s`, macro resets every `12–18 s`.
+  - [ ] Loop ending stitches `Frame N+1` to `Frame 0`; `9:16` layout stacks hero and central captions inside UI-safe zones and passes `100%` Muted Sound-Off Audit.
+- **16. Music & Sound Design**
+  - [ ] Visual hits land at `0f` or `-1f to -2f` before audio transients (never after), preceded by `6–12f` anticipation; integer-frame BPM selected; `0.5–1.5 s` silence drop before climax.
+  - [ ] Size-matched Whooshes (at `v_max`), Impacts, continuous Room Tone (`-28 to -38 LUFS`), tactile Foley, and key-quantized UI sounds limited to `≤ 3` simultaneous elements (`±45%` max pan).
+- **17. Mix & Mastering**
+  - [ ] DX high-passed (`80–100 Hz`), `2.5–4.5 kHz` presence-boosted, and leveled (`4–8 LU`); Music ducked `-8 to -14 LU` (`180 ms` look-ahead, `400 ms` hold, `800 ms` release, `1–4 kHz` spectral slot).
+  - [ ] Master normalized to exact platform target (`-14 LUFS` web/social, `-23 LUFS` EBU, `-24 LKFS` ATSC, `-27 LKFS` Netflix) with `-1.5 to -2.0 dBTP` 4× True Peak ceiling and `48 kHz / 24-bit` stems (`Full`, `M&E`, `DX`, `MX`, `SFX`).
+- **18. Narrative & Structure**
+  - [ ] Visual Intensity Curve locked to narrative framework (`Three-Act`, `PAS`, or `Kishōtenketsu`), peaking at `75%–88%` runtime.
+  - [ ] Maximum `1` proposition per shot (`≤ 3` chunks on screen); visual reveal leads label by `6–12f`; single isolated CTA (`≤ 6 words`) held stationary for `≥ 2.5–4.0 s`.
+- **19. Accessibility**
+  - [ ] WCAG 2.2 luminance contrast `≥ 4.5:1` (`≥ 7.0:1` target over video via scrim/pill) for text and `≥ 3.0:1` + non-hue redundant cues for graphics.
+  - [ ] Captions `≤ 17 CPS`, `0.833–7.0 s` duration, `≤ 2 lines` (`≤ 42 chars/line`), snapped cleanly to shot cuts within `11 frames`.
+  - [ ] Zero WCAG 2.3.1 / ITU-R BT.1702 flash violations (`≤ 3 flashes/s` when $\Delta Y \ge 0.10$ over `> 10%–25%` area; zero saturated-red flashes).
+- **20. Delivery**
+  - [ ] Archived in `10/12-bit` ProRes / `16-bit` EXR; distribution `.mp4` uses Closed GOP (`≤ 1–2s`), CABAC, legal range (`16–235`/`64–940`), explicit `NCLC` tags (`1-1-1`), and `+faststart`.
+  - [ ] `16:9` graphics inside SMPTE `2046-1` `93%/90%` safe areas; `9:16` graphics inside the Universal Vertical Safe Box (`X ∈ [6.5%, 85.2%]`, `Y ∈ [13.0%, 74.0%]`) and `4:5` grid crop.
+- **21. Review & Iteration**
+  - [ ] Sequential sign-off through Gates 1–4 with semantic versioning (`_vMAJOR.MINOR_`), frame-range parameter feedback, and `≥ 85/100` Quantitative Rubric score.
+- **22. Legal & Rights Clearance**
+  - [ ] Music Sync + Master rights, Cue Sheet, Font Broadcast/Embedding EULAs (or SIL OFL), Commercial 3D/Stock rights, trademark clearance, and Talent/Voice Releases verified.
